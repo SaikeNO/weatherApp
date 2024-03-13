@@ -16,6 +16,8 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddScoped<HttpClient>();
 builder.Services.AddScoped<ISeeder, Seeder>();
+builder.Services.AddScoped<ICityService, CityService>();
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Weather app API", Version = "v1" });
