@@ -1,10 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using weatherApp.Server;
+using weatherApp.Server.Models;
 using weatherApp.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var apiSettings = new ApiSettings();
+builder.Configuration.GetSection("WeatherApi").Bind(apiSettings);
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -17,6 +19,8 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<HttpClient>();
 builder.Services.AddScoped<ISeeder, Seeder>();
 builder.Services.AddScoped<ICityService, CityService>();
+
+builder.Services.AddSingleton(apiSettings);
 
 builder.Services.AddSwaggerGen(c =>
 {

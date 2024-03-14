@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
+using weatherApp.Server.Models;
 
 namespace weatherApp.Server.Controllers;
 
@@ -7,25 +9,25 @@ namespace weatherApp.Server.Controllers;
 public class WeatherController : ControllerBase
 {
     private readonly HttpClient _httpClient;
-    private readonly string API_KEY = "952948c63ccc4850bfb214707241303";
-    private readonly string BASE_URL = "https://api.weatherapi.com/v1/current.json";
     private readonly string apiUrl;
 
-    public WeatherController(HttpClient httpClient)
+    public WeatherController(HttpClient httpClient, ApiSettings settings)
     {
         _httpClient = httpClient;
-        apiUrl = $"{BASE_URL}?key={API_KEY}";
+        apiUrl = $"{settings.BaseURL}?key={settings.API_KEY}";
     }
 
-    [HttpGet]
-    public async Task<ActionResult<string>> GetWeather()
+    [HttpGet("{city}")]
+    public async Task<ActionResult<string>> GetWeather([FromRoute] string city)
     {
-        var response = await _httpClient.GetAsync($"{apiUrl}&q=warsaw");
+        var response = await _httpClient.GetAsync($"{apiUrl}&q={city}");
         if (response.IsSuccessStatusCode)
         {
             var data = await response.Content.ReadAsStringAsync();
 
-            return Ok(data);
+            var weather = JsonSerializer.Deserialize<WeatherResponseDto>(data);
+
+            return Ok(weather);
         }
         else
         {
