@@ -49,7 +49,7 @@ public class CityService : ICityService
         var city = _cityContext.Cities.FirstOrDefault(c => c.Name == dto.Name);
 
         if (city is not null)
-            throw new AlreadyExistException("City does not exist");
+            throw new AlreadyExistException("City already exist");
 
         var newCity = _mapper.Map<City>(dto);
 
