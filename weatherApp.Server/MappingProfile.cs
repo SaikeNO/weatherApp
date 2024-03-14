@@ -9,6 +9,6 @@ public class MappingProfile : Profile
     {
         CreateMap<City, CityDto>();
 
-        CreateMap<CreateCityDto, CityDto>();
+        CreateMap<CreateCityDto, City>();
     }
 }
