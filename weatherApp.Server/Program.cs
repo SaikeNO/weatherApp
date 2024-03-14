@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using weatherApp.Server;
+using weatherApp.Server.Middleware;
 using weatherApp.Server.Models;
 using weatherApp.Server.Services;
 
@@ -16,6 +17,7 @@ builder.Services.AddDbContext<CityContext>(options =>
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
+builder.Services.AddScoped<ExceptionHandlingMiddleware>();
 builder.Services.AddScoped<HttpClient>();
 builder.Services.AddScoped<ISeeder, Seeder>();
 builder.Services.AddScoped<ICityService, CityService>();
@@ -28,6 +30,8 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
