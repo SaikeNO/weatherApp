@@ -1,37 +1,61 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-
-interface WeatherForecast {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
-}
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Subject, switchMap, takeUntil} from 'rxjs';
+import { CityService } from './services/city.service';
+import { City } from './interfaces/City';
+import { CreateCity } from './interfaces/CreateCity';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit {
-  public forecasts: WeatherForecast[] = [];
+export class AppComponent implements OnInit, OnDestroy {
+  form = this.formBuilder.group({
+    city: ['', [Validators.required, Validators.minLength(3)]]
+  })
 
-  constructor(private http: HttpClient) {}
+  cities: City[] = [];
+
+  private onDestroy$ = new Subject<void>();
+
+  constructor(private cityService:CityService, private http: HttpClient, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.getForecasts();
+    this.cityService.getCities()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(reponse => this.cities = reponse);
   }
 
-  getForecasts() {
-    this.http.get<WeatherForecast[]>('/api/weather/warsaw').subscribe(
-      (result) => {
-        console.log(result);
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+  ngOnDestroy() {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
-  title = 'weatherapp.client';
+  onSubmit() {
+    if (this.form.invalid) return;
+
+    const city: CreateCity = {
+      name: this.form.controls.city.value!
+    }
+
+    this.cityService.createCity(city)
+      .pipe(
+        switchMap(() => this.cityService.getCities()),
+        takeUntil(this.onDestroy$)
+      )
+      .subscribe(response => this.cities = response);
+
+  }
+
+  onDelete(id: number) {
+    this.cityService.deleteCity(id)
+      .pipe(
+        switchMap(() => this.cityService.getCities()),
+        takeUntil(this.onDestroy$)
+      )
+      .subscribe(response => this.cities = response);
+  }
+
 }
