@@ -1,0 +1,17 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <h2>Add a city</h2>
+  <label for="city">City:</label>
+  <input type="text" id="city" formControlName="city" />
+  <button>Add</button>
+</form>
+
+
+<ul>
+  @for(city of cities; track city.id){
+  <li>
+    <b>{{city.id}}</b>
+    <a routerLink="/{{city.id}}">{{city.name}}</a> 
+    <button (click)="onDelete(city.id)">x</button>
+  </li>
+  }
+</ul>

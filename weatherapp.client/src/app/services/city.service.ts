@@ -19,7 +19,12 @@ export class CityService {
   }
 
   deleteCity(id: number) {
-    return this.http.delete(`api/city/${id}`)
+    return this.http.delete<void>(`api/city/${id}`)
+      .pipe(catchError((e: HttpErrorResponse) => throwError(() => e)));
+  }
+
+  getCity(id: number) {
+    return this.http.get<City>(`/api/city/${id}`)
       .pipe(catchError((e: HttpErrorResponse) => throwError(() => e)));
   }
 

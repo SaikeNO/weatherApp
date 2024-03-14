@@ -1,0 +1,7 @@
+@if(isLoading$ | async){
+  <div>Loading...</div>
+}
+
+@if(city){
+  <h1>Weather for {{city.name}}</h1>
+}
