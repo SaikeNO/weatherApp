@@ -1,13 +1,19 @@
-<div *ngIf="weather$ | async as weather; else loading">
-  <div>
-    <img src="{{weather.current.condition.icon}}" alt="{{weather.current.condition.text}}" />
-  </div>
-  <div>Current tempreture: <span class="mat-h2"> {{weather.current.temp_c}} C&deg;</span></div>
-  <div>Feels like: <span class="mat-h2">{{weather.current.feelslike_c}} C&deg;</span></div>
-  <div>Wind: <span class="mat-h2">{{weather.current.wind_kph}} km/h</span></div>
-  <div>Wind direction: <span class="mat-h2">"{{weather.current.wind_dir}}"</span></div>
+<div *ngIf="isError$ | async as isError; else content">
+  Error
 </div>
 
-<ng-template #loading>
-  <div>Loading...</div>
+<ng-template #content>
+  <div *ngIf="weather$ | async as weather; else loading">
+    <div>
+      <img src="{{weather.current.condition.icon}}" alt="{{weather.current.condition.text}}" />
+    </div>
+    <div>Current tempreture: <span class="mat-h2"> {{weather.current.temp_c}} C&deg;</span></div>
+    <div>Feels like: <span class="mat-h2">{{weather.current.feelslike_c}} C&deg;</span></div>
+    <div>Wind: <span class="mat-h2">{{weather.current.wind_kph}} km/h</span></div>
+    <div>Wind direction: <span class="mat-h2">"{{weather.current.wind_dir}}"</span></div>
+  </div>
+
+  <ng-template #loading>
+    <div>Loading...</div>
+  </ng-template>
 </ng-template>

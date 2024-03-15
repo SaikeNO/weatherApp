@@ -1,10 +1,11 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
-import { Observable} from 'rxjs';
+import { BehaviorSubject, Observable, catchError, throwError} from 'rxjs';
 
 import { WeatherService } from '../../services/weather.service';
 
 import { Weather } from '../../interfaces/Weather';
 import { City } from '../../interfaces/City';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-city',
@@ -17,7 +18,14 @@ export class CityComponent implements OnInit {
   @Input({required: true}) city!: City;
   weather$!: Observable<Weather>;
 
+  isError$ = new BehaviorSubject<boolean>(false);
+
   ngOnInit() {
-    this.weather$ = this.weatherService.getWeather(this.city.name);
+    this.weather$ = this.weatherService.getWeather(this.city.name).pipe(
+      catchError((error: HttpErrorResponse) => {
+        this.isError$.next(true);
+        return throwError(() => error);
+      })
+    );
   }
 }

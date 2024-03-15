@@ -13,6 +13,7 @@ import { HomeComponent } from './components/home/home.component';
 import { CityComponent } from './components/city/city.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { AddCityDialogComponent } from './components/add-city-dialog/add-city-dialog.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     HomeComponent,
     CityComponent,
     PageNotFoundComponent,
-    DashboardComponent
+    DashboardComponent,
+    AddCityDialogComponent
   ],
   imports: [
     AppRoutingModule,
@@ -29,7 +31,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     CommonModule,
     BrowserModule,
     HttpClientModule,
-    MaterialModule
+    MaterialModule,
   ],
   bootstrap: [AppComponent],
   providers: [

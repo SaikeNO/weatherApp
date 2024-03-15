@@ -1,6 +1,9 @@
 <div class="grid-container">
   <h1 class="mat-h1">Weather</h1>
-  <button mat-raised-button color="primary"> <mat-icon>add</mat-icon> Add</button>
+  <button mat-raised-button color="primary" (click)="openDialog()">
+    <mat-icon>add</mat-icon>
+    Add
+  </button>
   <mat-grid-list cols="2" rowHeight="350px">
     @for (city of cities; track city.id) {
     <mat-grid-tile>

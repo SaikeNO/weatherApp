@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Add new city</h2>
+<mat-dialog-content>
+  <p>Type the city you want to add.</p>
+  <mat-form-field>
+    <mat-label>City</mat-label>
+    <input matInput [(ngModel)]="city.name">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="city" cdkFocusInitial [disabled]="!city.name">Add</button>
+</mat-dialog-actions>
