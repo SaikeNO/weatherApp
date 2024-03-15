@@ -10,7 +10,12 @@
       <mat-card class="dashboard-card">
         <mat-card-header>
           <mat-card-title>
-            {{city.name}}
+            @if(city.alias){
+            {{city.alias}}
+              <span class="mat-caption">{{city.name}}</span>
+            } @else{
+              {{city.name}}
+            }
             <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
               <mat-icon>more_vert</mat-icon>
             </button>

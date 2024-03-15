@@ -1,3 +1,4 @@
 export interface CreateCity {
-  name: string
+  name: string,
+  alias?: string
 }
