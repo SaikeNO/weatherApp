@@ -15,5 +15,9 @@ public class CityContext : DbContext
             .Property(c => c.Name)
             .IsRequired()
             .HasMaxLength(50);
+
+        modelBuilder.Entity<City>()
+            .Property(c => c.Alias)
+            .HasMaxLength(50);
     }
 }
