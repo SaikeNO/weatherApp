@@ -6,12 +6,14 @@
 </form>
 
 
+
 <ul>
   @for(city of cities; track city.id){
   <li>
     <b>{{city.id}}</b>
-    <a routerLink="/{{city.id}}">{{city.name}}</a> 
+    <a routerLink="/{{city.id}}">{{city.name}}</a>
     <button (click)="onDelete(city.id)">x</button>
   </li>
   }
 </ul>
+
