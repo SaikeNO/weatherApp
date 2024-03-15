@@ -3,12 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { CityComponent } from './components/city/city.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 const routes: Routes = [
   {
     path: "",
     pathMatch: "full",
-    component: HomeComponent,
+    component: DashboardComponent,
   },
   {
     path: ":id",

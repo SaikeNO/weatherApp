@@ -1,16 +1,18 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+
+import { AppRoutingModule } from './app-routing.module';
+import { MaterialModule } from './material.module';
+
+import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { CityComponent } from './components/city/city.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { MenuComponent } from './components/menu/menu.component';
-import { SharedModule } from './shared.module';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 
 @NgModule({
@@ -19,7 +21,7 @@ import { SharedModule } from './shared.module';
     HomeComponent,
     CityComponent,
     PageNotFoundComponent,
-    MenuComponent
+    DashboardComponent
   ],
   imports: [
     AppRoutingModule,
@@ -27,7 +29,7 @@ import { SharedModule } from './shared.module';
     CommonModule,
     BrowserModule,
     HttpClientModule,
-    SharedModule
+    MaterialModule
   ],
   bootstrap: [AppComponent],
   providers: [
