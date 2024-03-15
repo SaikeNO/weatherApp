@@ -5,6 +5,7 @@ import { CityService } from '../../services/city.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { WeatherService } from '../../services/weather.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Weather } from '../../interfaces/Weather';
 
 @Component({
   selector: 'app-city',
@@ -13,6 +14,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class CityComponent implements OnInit {
   city: City | null = null;
+  weather: Weather | null = null;
 
   isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -39,6 +41,7 @@ export class CityComponent implements OnInit {
         return throwError(() => e);
       })
     ).subscribe(response => {
+      this.weather = response;
       this.isLoading$.next(false);
     })
   }

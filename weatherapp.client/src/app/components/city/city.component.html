@@ -5,3 +5,15 @@
 @if(city){
   <h1>Weather for {{city.name}}</h1>
 }
+
+@if(weather){
+  <div>
+    <div>
+      <img src="{{weather.current.condition.icon}}" alt="{{weather.current.condition.text}}" />
+    </div>
+    <p>Current tempreture: {{weather.current.temp_c}} C&deg;</p>
+    <p>Feels like: {{weather.current.feelslike_c}} C&deg;</p>
+    <p>Wind: {{weather.current.wind_kph}} km/h</p>
+    <p>Wind direction: "{{weather.current.wind_dir}}"</p>
+  </div>
+}

@@ -1,5 +1,4 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Subject, switchMap, takeUntil } from 'rxjs';
 import { City } from '../../interfaces/City';
@@ -20,7 +19,7 @@ export class HomeComponent {
 
   private onDestroy$ = new Subject<void>();
 
-  constructor(private cityService: CityService, private http: HttpClient, private formBuilder: FormBuilder) { }
+  constructor(private cityService: CityService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.cityService.getCities()
@@ -45,7 +44,10 @@ export class HomeComponent {
         switchMap(() => this.cityService.getCities()),
         takeUntil(this.onDestroy$)
       )
-      .subscribe(response => this.cities = response);
+      .subscribe(response => {
+        this.form.reset();
+        this.cities = response
+      });
 
   }
 
