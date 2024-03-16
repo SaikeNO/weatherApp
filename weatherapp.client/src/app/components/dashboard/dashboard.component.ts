@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Subject, switchMap, takeUntil } from 'rxjs';
+import { Subject, map, switchMap, takeUntil } from 'rxjs';
 import { CityService } from '../../services/city.service';
 import { CityDialogComponent } from '../city-dialog/city-dialog.component';
 
 import { City } from '../../interfaces/City';
 import { CreateCity } from '../../interfaces/CreateCity';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,11 +16,15 @@ import { CreateCity } from '../../interfaces/CreateCity';
 export class DashboardComponent implements OnInit, OnDestroy {
   private cityService = inject(CityService);
   private dialog = inject(MatDialog);
+  private breakpointObserver = inject(BreakpointObserver);
 
   private onDestroy$ = new Subject<void>();
   public createCity: CreateCity = { name: "" };
   public cities: City[] = [];
 
+  public cols = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
+    map(({matches}) => matches ? 1 : 2)
+  )
 
   ngOnInit() {
     this.cityService.getCities()
