@@ -12,9 +12,8 @@
           <mat-card-title>
             @if(city.alias){
             {{city.alias}}
-              <span class="mat-caption">{{city.name}}</span>
             } @else{
-              {{city.name}}
+            {{city.name}}
             }
             <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
               <mat-icon>more_vert</mat-icon>
@@ -24,6 +23,7 @@
               <button mat-menu-item (click)="onDelete(city.id)">Remove</button>
             </mat-menu>
           </mat-card-title>
+          <mat-card-subtitle *ngIf="city.alias">{{city.name}}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
           <app-city [city]="city"></app-city>

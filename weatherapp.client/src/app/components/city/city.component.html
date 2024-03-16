@@ -1,5 +1,8 @@
-<div *ngIf="isError$ | async as isError; else content">
-  Error
+<div class="error" *ngIf="isError$ | async as isError; else content">
+  <div>
+    <mat-icon color="warn">priority_high</mat-icon>
+    <div class="mat-h2">Failed to fetch</div>
+  </div>
 </div>
 
 <ng-template #content>
@@ -11,11 +14,12 @@
     <div>Feels like: <span class="mat-h2">{{weather.current.feelslike_c}} C&deg;</span></div>
     <div>Wind: <span class="mat-h2">{{weather.current.wind_kph}} km/h</span></div>
     <div>Wind direction: <span class="mat-h2">"{{weather.current.wind_dir}}"</span></div>
+    <div>Local time: <span class="mat-h2">{{weather.location.localtime}}</span></div>
   </div>
 
   <ng-template #loading>
     <div class="spinner">
-    <mat-spinner></mat-spinner>
+      <mat-spinner></mat-spinner>
     </div>
   </ng-template>
 </ng-template>
