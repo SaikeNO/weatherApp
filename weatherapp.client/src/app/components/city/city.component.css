@@ -1,0 +1,11 @@
+:host{
+  height: 100%;
+  display: block;
+}
+
+.spinner{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+}

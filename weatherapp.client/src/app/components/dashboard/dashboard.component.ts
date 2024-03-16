@@ -67,6 +67,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       takeUntil(this.onDestroy$)
     ).subscribe(response => {
       this.createCity.name = "";
+      this.createCity.alias = "";
       this.cities = response;
     });
 
