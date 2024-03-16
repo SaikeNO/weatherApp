@@ -26,7 +26,7 @@ public class CityService : ICityService
 
     public List<CityDto> GetAllCities()
     {
-        var cities = _cityContext.Cities.ToList();
+        var cities = _cityContext.Cities.OrderByDescending(c => c.Id).ToList();
 
         return _mapper.Map<List<CityDto>>(cities);
     }
@@ -41,7 +41,7 @@ public class CityService : ICityService
         var city = GetCity(id);
 
         _cityContext.Cities.Remove(city);
-        _cityContext.SaveChangesAsync();
+        _cityContext.SaveChanges();
     }
 
     public CityDto CreateCity(CreateCityDto dto)
