@@ -13,7 +13,7 @@ import { HomeComponent } from './components/home/home.component';
 import { CityComponent } from './components/city/city.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { AddCityDialogComponent } from './components/add-city-dialog/add-city-dialog.component';
+import { AddCityDialogComponent } from './components/city-dialog/city-dialog.component';
 
 
 @NgModule({
