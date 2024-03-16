@@ -21,6 +21,7 @@ builder.Services.AddScoped<ExceptionHandlingMiddleware>();
 builder.Services.AddScoped<HttpClient>();
 builder.Services.AddScoped<ISeeder, Seeder>();
 builder.Services.AddScoped<ICityService, CityService>();
+builder.Services.AddScoped<IWeatherService, WeatherService>();
 
 builder.Services.AddSingleton(apiSettings);
 

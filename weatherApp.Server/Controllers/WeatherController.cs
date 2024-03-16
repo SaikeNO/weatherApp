@@ -1,37 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using weatherApp.Server.Models;
+using weatherApp.Server.Services;
 
 namespace weatherApp.Server.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class WeatherController : ControllerBase
+public class WeatherController(IWeatherService weatherService) : ControllerBase
 {
-    private readonly HttpClient _httpClient;
-    private readonly string apiUrl;
-
-    public WeatherController(HttpClient httpClient, ApiSettings settings)
-    {
-        _httpClient = httpClient;
-        apiUrl = $"{settings.BaseURL}?key={settings.API_KEY}";
-    }
-
     [HttpGet("{city}")]
-    public async Task<ActionResult<string>> GetWeather([FromRoute] string city)
+    public async Task<ActionResult<WeatherResponseDto>> GetWeather([FromRoute] string city)
     {
-        var response = await _httpClient.GetAsync($"{apiUrl}&q={city}");
-        if (response.IsSuccessStatusCode)
-        {
-            var data = await response.Content.ReadAsStringAsync();
+        var weather = await weatherService.GetWeatherForCity(city);
 
-            var weather = JsonSerializer.Deserialize<WeatherResponseDto>(data);
-
-            return Ok(weather);
-        }
-        else
-        {
-            return StatusCode((int)response.StatusCode);
-        }
+        return Ok(weather);
     }
 }
