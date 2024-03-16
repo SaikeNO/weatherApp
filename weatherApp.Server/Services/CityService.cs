@@ -64,6 +64,7 @@ public class CityService : ICityService
         var city = GetCity(id);
 
         city.Name = dto.Name;
+        city.Alias = dto.Alias;
 
         _cityContext.SaveChanges();
 

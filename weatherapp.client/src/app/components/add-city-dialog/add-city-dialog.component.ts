@@ -8,10 +8,16 @@ import { CreateCity } from '../../interfaces/CreateCity';
   styleUrl: './add-city-dialog.component.css'
 })
 export class AddCityDialogComponent {
+
+  city!: CreateCity;
+  isEditing: boolean = false; 
   constructor(
     public dialogRef: MatDialogRef<AddCityDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public city: CreateCity,
-  ) { }
+    @Inject(MAT_DIALOG_DATA) public data: {city: CreateCity, isEditing: boolean},
+  ) {
+    this.city = data.city;
+    this.isEditing = data.isEditing;
+  }
 
   onNoClick(): void {
     this.dialogRef.close();

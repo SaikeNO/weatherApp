@@ -28,4 +28,9 @@ export class CityService {
       .pipe(catchError((e: HttpErrorResponse) => throwError(() => e)));
   }
 
+  updateCity(id:number, city: CreateCity) {
+    return this.http.put<City>(`/api/city/${id}`, city)
+      .pipe(catchError((e: HttpErrorResponse) => throwError(() => e)));
+  }
+
 }
