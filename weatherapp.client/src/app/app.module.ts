@@ -9,21 +9,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './material.module';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
 import { CityComponent } from './components/city/city.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { AddCityDialogComponent } from './components/city-dialog/city-dialog.component';
+import { CityDialogComponent } from './components/city-dialog/city-dialog.component';
+import { CityListComponent } from './components/city-list/city-list.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     CityComponent,
     PageNotFoundComponent,
     DashboardComponent,
-    AddCityDialogComponent
+    CityDialogComponent,
+    CityListComponent
   ],
   imports: [
     AppRoutingModule,

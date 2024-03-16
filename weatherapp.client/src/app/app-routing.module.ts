@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CityComponent } from './components/city/city.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { CityListComponent } from './components/city-list/city-list.component';
 
 const routes: Routes = [
   {
@@ -11,8 +11,8 @@ const routes: Routes = [
     component: DashboardComponent,
   },
   {
-    path: ":id",
-    component: CityComponent
+    path: "city-list",
+    component: CityListComponent
   },
   {
     path: '**',
