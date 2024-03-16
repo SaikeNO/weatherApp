@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
@@ -14,6 +14,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CityDialogComponent } from './components/city-dialog/city-dialog.component';
 import { CityListComponent } from './components/city-list/city-list.component';
+import { errorHandlingInterceptor } from './interceptors/error-handling.interceptor';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { CityListComponent } from './components/city-list/city-list.component';
   ],
   bootstrap: [AppComponent],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    provideHttpClient(withInterceptors([errorHandlingInterceptor]))
   ]
 })
 export class AppModule { }
