@@ -1,4 +1,5 @@
-﻿using weatherApp.Server.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using weatherApp.Server.Models;
 
 namespace weatherApp.Server;
 
@@ -17,6 +18,11 @@ public class Seeder : ISeeder
     }
     public async Task Seed()
     {
+        if (_cityContext.Database.GetPendingMigrations().Any())
+        {
+            await _cityContext.Database.MigrateAsync();
+        }
+
         if (await _cityContext.Database.CanConnectAsync())
         {
             if (!_cityContext.Cities.Any())
