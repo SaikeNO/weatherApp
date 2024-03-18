@@ -72,7 +72,6 @@ Poniżej znajduje się screenshot prezentujący widok Swaggera, który dokumentu
     - Ciało żądania powinno zawierać dane miasta w formacie JSON.
   - **Przykładowy żądanie:**
     ```json
-    POST /api/City
     {
         "name": "NewCity",
         "alias": "NC"
@@ -99,7 +98,6 @@ Poniżej znajduje się screenshot prezentujący widok Swaggera, który dokumentu
     - Ciało żądania powinno zawierać zaktualizowane dane miasta w formacie JSON.
   - **Przykładowy żądanie:**
     ```json
-    PUT /api/City/1
     {
         "name": "UpdatedCity",
         "alias": "UC"
