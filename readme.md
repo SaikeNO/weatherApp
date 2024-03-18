@@ -13,6 +13,8 @@
 
 To jest aplikacja pogodowa zbudowana przy użyciu Angulara dla frontendu oraz .NET dla backendu. Umożliwia użytkownikom zarządzanie miastami (dodawanie, usuwanie, edytowanie), które są przechowywane w bazie danych. Dodatkowo, użytkownicy mogą przeglądać aktualną pogodę dla określonych miast, pobieraną z zewnętrznego API.
 
+![Screenshot Swaggera](assets/app.png)
+
 ## Funkcje
 
 - **Zarządzanie Miastami:** Użytkownicy mogą dodawać, usuwać i edytować miasta. Zmiany te są odzwierciedlane w bazie danych.
