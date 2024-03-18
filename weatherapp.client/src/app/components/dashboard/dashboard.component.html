@@ -4,7 +4,7 @@
     <mat-icon>add</mat-icon>
     Add
   </button>
-  <mat-grid-list [cols]="cols | async" rowHeight="350px">
+  <mat-grid-list [cols]="cols$ | async" rowHeight="350px">
     @for (city of cities; track city.id) {
     <mat-grid-tile>
       <mat-card class="dashboard-card">

@@ -9,7 +9,7 @@ import { CreateCity } from '../../interfaces/CreateCity';
 })
 export class CityDialogComponent {
 
-  city!: CreateCity;
+  city: CreateCity;
   isEditing: boolean = false; 
   constructor(
     public dialogRef: MatDialogRef<CityDialogComponent>,

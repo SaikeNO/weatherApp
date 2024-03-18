@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Subject, map, switchMap, takeUntil } from 'rxjs';
+import { Subject, filter, map, switchMap, takeUntil } from 'rxjs';
 import { CityService } from '../../services/city.service';
 import { CityDialogComponent } from '../city-dialog/city-dialog.component';
 
@@ -22,14 +22,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public createCity: CreateCity = { name: "" };
   public cities: City[] = [];
 
-  public cols = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
+  public cols$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     map(({matches}) => matches ? 1 : 2)
   )
 
   ngOnInit() {
     this.cityService.getCities()
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(response => this.cities = response)
+      .subscribe(response => this.cities = response.reverse())
   }
 
   ngOnDestroy() {
@@ -41,39 +41,41 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.cityService.deleteCity(id).pipe(
       switchMap(() => this.cityService.getCities()),
       takeUntil(this.onDestroy$)
-    ).subscribe(response => this.cities = response);
+    ).subscribe(response => this.cities = response.reverse());
   }
 
   onEdit(city: City) {
     const dialogRef = this.dialog.open(CityDialogComponent, {
       data: {
-        city,
+        city: { ...city },
         isEditing: true,
       }
     });
 
     dialogRef.afterClosed().pipe(
-      switchMap((city: City) => this.cityService.updateCity(city.id, city)),
+      filter((response: City) => response.alias != city.alias),
+      switchMap((city) => this.cityService.updateCity(city.id, city)),
       switchMap(() => this.cityService.getCities()),
       takeUntil(this.onDestroy$)
-    ).subscribe(response => this.cities = response);
+    ).subscribe(response => this.cities = response.reverse());
   }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(CityDialogComponent, {
       data: {
-        city: this.createCity
+        city: { ...this.createCity }
       }
     });
 
     dialogRef.afterClosed().pipe(
-      switchMap((newCity: CreateCity) => this.cityService.createCity(newCity)),
+      filter((response: CreateCity) => !!response.name),
+      switchMap((newCity) => this.cityService.createCity(newCity)),
       switchMap(() => this.cityService.getCities()),
       takeUntil(this.onDestroy$)
     ).subscribe(response => {
       this.createCity.name = "";
       this.createCity.alias = "";
-      this.cities = response;
+      this.cities = response.reverse();
     });
 
   }
