@@ -11,7 +11,7 @@
 
 # Aplikacja Pogodowa Angular / .NET
 
-To jest aplikacja pogodowa zbudowana przy użyciu Angulara dla frontendu oraz .NET dla backendu. Umożliwia użytkownikom zarządzanie miastami (dodawanie, usuwanie, edytowanie), które są przechowywane w bazie danych. Dodatkowo, użytkownicy mogą przeglądać aktualną pogodę dla określonych miast, pobieraną z zewnętrznego API.
+To jest aplikacja pogodowa zbudowana przy użyciu Angulara dla frontendu oraz .NET dla backendu (https://learn.microsoft.com/pl-pl/visualstudio/javascript/tutorial-asp-net-core-with-angular?view=vs-2022). Umożliwia użytkownikom zarządzanie miastami (dodawanie, usuwanie, edytowanie), które są przechowywane w bazie danych. Dodatkowo, użytkownicy mogą przeglądać aktualną pogodę dla określonych miast, pobieraną z zewnętrznego API.
 
 ![Screenshot Swaggera](assets/app.png)
 
@@ -23,8 +23,8 @@ To jest aplikacja pogodowa zbudowana przy użyciu Angulara dla frontendu oraz .N
 
 ## Użyte Technologie
 
-- **Frontend:** Angular
-- **Backend:** .NET
+- **Frontend:** Angular (z Angular Material)
+- **Backend:** .NET (z Entity Framework)
 - **Baza Danych:** MS SQL
 - **Zewnętrzne API:** [WeatherAPI](https://www.weatherapi.com/)
 
