@@ -2,14 +2,8 @@
 
 namespace weatherApp.Server.Middleware;
 
-public class ExceptionHandlingMiddleware : IMiddleware
+public class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddleware> logger) : IMiddleware
 {
-    private readonly ILogger<ExceptionHandlingMiddleware> _logger;
-
-    public ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddleware> logger)
-    {
-        _logger = logger;
-    }
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
@@ -29,7 +23,7 @@ public class ExceptionHandlingMiddleware : IMiddleware
         }
         catch(Exception e)
         {
-            _logger.LogError(e, e.Message);
+            logger.LogError(e, e.Message);
             context.Response.StatusCode = 500;
             await context.Response.WriteAsync("Someting went wrong");
         }

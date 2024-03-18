@@ -6,51 +6,46 @@ namespace weatherApp.Server.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class CityController : ControllerBase
+public class CityController(ICityService cityService) : ControllerBase
 {
-    private readonly ICityService _cityService;
-
-    public CityController(ICityService cityService)
-    {
-        _cityService = cityService;
-    }
-
     [HttpGet]
-    public ActionResult<List<CityDto>> GetAll()
+    public async Task<IActionResult> GetAll()
     {
-        return Ok(_cityService.GetAllCities());
+        var cities = await cityService.GetAllCities();
+        return Ok(cities);
     }
 
     [HttpGet("{id}")]
-    public ActionResult<CityDto> GetAll([FromRoute] int id)
+    public async Task<IActionResult> GetAll([FromRoute] int id)
     {
-        return Ok(_cityService.GetCityById(id));
+        var city = await cityService.GetCityById(id);
+        return Ok(city);
     }
 
     [HttpDelete("{id}")]
-    public ActionResult Delete([FromRoute] int id)
+    public async Task<IActionResult> Delete([FromRoute] int id)
     {
-        _cityService.DeleteCity(id);
+        await cityService.DeleteCity(id);
         return NoContent();
     }
 
     [HttpPost]
-    public ActionResult<CityDto> Create([FromBody] CreateCityDto dto)
+    public async Task<IActionResult> Create([FromBody] CreateCityDto dto)
     {
         if(!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var city = _cityService.CreateCity(dto);
+        var city = await cityService.CreateCity(dto);
         return Ok(city);
     }
 
     [HttpPut("{id}")]
-    public ActionResult<CityDto> Update([FromRoute] int id, [FromBody] CreateCityDto dto)
+    public async Task<IActionResult> Update([FromRoute] int id, [FromBody] CreateCityDto dto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var city = _cityService.UpdateCity(id, dto);
+        var city = await cityService.UpdateCity(id, dto);
         return Ok(city);
     }
 }

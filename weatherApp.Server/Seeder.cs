@@ -8,43 +8,36 @@ public interface ISeeder
     Task Seed();
 }
 
-public class Seeder : ISeeder
+public class Seeder(CityContext cityContext) : ISeeder
 {
-    private readonly CityContext _cityContext;
-
-    public Seeder(CityContext cityContext)
-    {
-        _cityContext = cityContext;
-    }
     public async Task Seed()
     {
-        if (_cityContext.Database.GetPendingMigrations().Any())
+        if (cityContext.Database.GetPendingMigrations().Any())
         {
-            await _cityContext.Database.MigrateAsync();
+            await cityContext.Database.MigrateAsync();
         }
 
-        if (await _cityContext.Database.CanConnectAsync())
+        if (await cityContext.Database.CanConnectAsync())
         {
-            if (!_cityContext.Cities.Any())
+            if (!cityContext.Cities.Any())
             {
-                var cities = GetCities();
-                await _cityContext.AddRangeAsync(cities);
-                await _cityContext.SaveChangesAsync();
+                var cities = Cities;
+                await cityContext.AddRangeAsync(cities);
+                await cityContext.SaveChangesAsync();
             }
         }
     }
 
-    private static IEnumerable<City> GetCities()
+    private static IEnumerable<City> Cities
     {
-        List<City> cities = [
-            new(){
-                Name = "Warsaw"
-            },
-            new(){
-                Name = "Berlin"
-            }
-        ];
+        get
+        {
+            List<City> cities = [
+                new(){ Name = "Warsaw" },
+                new(){ Name = "Berlin" }
+            ];
 
-        return cities;
+            return cities;
+        }
     }
 }

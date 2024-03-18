@@ -3,10 +3,8 @@ using weatherApp.Server.Models;
 
 namespace weatherApp.Server;
 
-public class CityContext : DbContext
+public class CityContext(DbContextOptions<CityContext> options) : DbContext(options)
 {
-    public CityContext(DbContextOptions<CityContext> options) : base(options) { }
-
     public DbSet<City> Cities { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

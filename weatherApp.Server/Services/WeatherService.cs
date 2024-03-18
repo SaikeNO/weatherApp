@@ -9,20 +9,13 @@ public interface IWeatherService
     Task<WeatherResponseDto> GetWeatherForCity(string city);
 }
 
-public class WeatherService : IWeatherService
+public class WeatherService(HttpClient httpClient, ApiSettings settings) : IWeatherService
 {
-    private readonly HttpClient _httpClient;
-    private readonly string _apiUrl;
-
-    public WeatherService(HttpClient httpClient, ApiSettings settings)
-    {
-        _httpClient = httpClient;
-        _apiUrl = $"{settings.BaseURL}?key={settings.API_KEY}";
-    }
+    private readonly string _apiUrl = $"{settings.BaseURL}?key={settings.API_KEY}";
 
     public async Task<WeatherResponseDto> GetWeatherForCity(string city)
     {
-        var response = await _httpClient.GetAsync($"{_apiUrl}&q={city}");
+        var response = await httpClient.GetAsync($"{_apiUrl}&q={city}");
         if (!response.IsSuccessStatusCode)
             throw new NotFoundException($"{city} does not exist");
 

@@ -1,7 +1,5 @@
-﻿namespace weatherApp.Server.Exceptions
+﻿namespace weatherApp.Server.Exceptions;
+
+public class AlreadyExistException(string message) : Exception(message)
 {
-    public class AlreadyExistException : Exception
-    {
-        public AlreadyExistException(string message) : base(message) { }
-    }
 }

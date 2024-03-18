@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using weatherApp.Server.Exceptions;
 using weatherApp.Server.Models;
 
@@ -6,74 +7,66 @@ namespace weatherApp.Server.Services;
 
 public interface ICityService
 {
-    CityDto CreateCity(CreateCityDto dto);
-    void DeleteCity(int id);
-    List<CityDto> GetAllCities();
-    CityDto GetCityById(int id);
-    CityDto UpdateCity(int id, CreateCityDto dto);
+    Task<CityDto> CreateCity(CreateCityDto dto);
+    Task DeleteCity(int id);
+    Task<IEnumerable<CityDto>> GetAllCities();
+    Task<CityDto> GetCityById(int id);
+    Task<CityDto> UpdateCity(int id, CreateCityDto dto);
 }
 
-public class CityService : ICityService
+public class CityService(CityContext cityContext, IMapper mapper) : ICityService
 {
-    private readonly CityContext _cityContext;
-    private readonly IMapper _mapper;
-
-    public CityService(CityContext cityContext, IMapper mapper)
+    public async Task<IEnumerable<CityDto>> GetAllCities()
     {
-        _cityContext = cityContext;
-        _mapper = mapper;
+        var cities = await cityContext.Cities.ToListAsync();
+
+        return mapper.Map<List<CityDto>>(cities);
     }
 
-    public List<CityDto> GetAllCities()
+    public async Task<CityDto> GetCityById(int id)
     {
-        var cities = _cityContext.Cities.OrderByDescending(c => c.Id).ToList();
-
-        return _mapper.Map<List<CityDto>>(cities);
+        var city = await GetCity(id);
+        return mapper.Map<CityDto>(city);
     }
 
-    public CityDto GetCityById(int id)
+    public async Task DeleteCity(int id)
     {
-        return _mapper.Map<CityDto>(GetCity(id));
+        var city = await GetCity(id);
+
+        cityContext.Cities.Remove(city);
+        await cityContext.SaveChangesAsync();
     }
 
-    public void DeleteCity(int id)
+    public async Task<CityDto> CreateCity(CreateCityDto dto)
     {
-        var city = GetCity(id);
-
-        _cityContext.Cities.Remove(city);
-        _cityContext.SaveChanges();
-    }
-
-    public CityDto CreateCity(CreateCityDto dto)
-    {
-        var city = _cityContext.Cities.FirstOrDefault(c => c.Name == dto.Name);
+        var city = await cityContext.Cities.FirstOrDefaultAsync(c => c.Name == dto.Name);
 
         if (city is not null)
             throw new AlreadyExistException("City already exist");
 
-        var newCity = _mapper.Map<City>(dto);
+        var newCity = mapper.Map<City>(dto);
 
-        _cityContext.Add(newCity);
-        _cityContext.SaveChanges();
+        await cityContext.AddAsync(newCity);
+        await cityContext.SaveChangesAsync();
 
-        return _mapper.Map<CityDto>(newCity);
+        return mapper.Map<CityDto>(newCity);
     }
 
-    public CityDto UpdateCity(int id, CreateCityDto dto)
+    public async Task<CityDto> UpdateCity(int id, CreateCityDto dto)
     {
-        var city = GetCity(id);
+        var city = await GetCity(id);
 
         city.Name = dto.Name;
         city.Alias = dto.Alias;
 
-        _cityContext.SaveChanges();
+        await cityContext.SaveChangesAsync();
 
-        return _mapper.Map<CityDto>(city);
+        return mapper.Map<CityDto>(city);
     }
 
-    private City GetCity(int id)
+    private async Task<City> GetCity(int id)
     {
-        var city = _cityContext.Cities.FirstOrDefault(c => c.Id == id);
+        var city = await cityContext.Cities.FirstOrDefaultAsync(c => c.Id == id);
 
         if (city is null)
             throw new NotFoundException("City does not exist");
