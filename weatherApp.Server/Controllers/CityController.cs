@@ -16,7 +16,7 @@ public class CityController(ICityService cityService) : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetAll([FromRoute] int id)
+    public async Task<IActionResult> Get([FromRoute] int id)
     {
         var city = await cityService.GetCityById(id);
         return Ok(city);
